@@ -13,7 +13,7 @@ userController.get("/users", async (req, res) => {
     }
 });
 
-userController.get("/users/:id`([0-9]*)", async (req, res) => {
+userController.get("/users/:id([0-9]*)", async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -22,15 +22,85 @@ userController.get("/users/:id`([0-9]*)", async (req, res) => {
                 id: id,
             },
         });
+
+        if (!user) {
+            return res.status(404).json({ message: "Brugeren findes ikke." });
+        }
+
         res.json(user);
     } catch (error) {
-        console.log(error);
-        res.status(500).send("Fejl! Kunne ikke finde brugeren.");
+        res.status(500).send({
+            message: "Fejl! Kunne ikke finde brugeren.",
+            error: error,
+        });
     }
 });
 
-userController.post("/users", async (req, res) => {});
+userController.post("/users", async (req, res) => {
+    const { username, email, password } = req.body;
 
-userController.put("/users/:id`([0-9]*)", async (req, res) => {});
+    if (!username || !email || !password) {
+        return res.status(400).json({ message: "Mangler påkrævede felter." });
+    }
 
-userController.delete("/users/:id`([0-9]*)", async (req, res) => {});
+    try {
+        const user = await UserModel.create(req.body);
+
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).send({
+            message: "Fejl! Kunne ikke oprette brugeren.",
+            error: error,
+        });
+    }
+});
+
+userController.put("/users/:id([0-9]*)", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await UserModel.findOne({
+            where: {
+                id: id,
+            },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "Brugeren findes ikke." });
+        }
+
+        await user.update(req.body);
+
+        res.json(user);
+    } catch (error) {
+        res.status(500).send({
+            message: "Fejl! Kunne ikke opdatere brugeren.",
+            error: error,
+        });
+    }
+});
+
+userController.delete("/users/:id([0-9]*)", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await UserModel.findOne({
+            where: {
+                id: id,
+            },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "Brugeren findes ikke." });
+        }
+
+        await user.destroy();
+
+        res.json({ message: "Brugeren blev slettet." });
+    } catch (error) {
+        res.status(500).send({
+            message: "Fejl! Kunne ikke slette brugeren.",
+            error: error,
+        });
+    }
+});

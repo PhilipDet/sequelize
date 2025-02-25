@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 
 import { db } from "./config/db.js";
 
@@ -20,9 +21,7 @@ import { ImageModel } from "./models/image.js";
 import { dbController } from "./controller/db.js";
 import { userController } from "./controller/user.js";
 import { postController } from "./controller/post.js";
-app.use(dbController);
-app.use(userController);
-app.use(postController);
+app.use(dbController, userController, postController);
 // ------------------------------------------------
 
 app.get("/", async (req, res) => {
