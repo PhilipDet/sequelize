@@ -16,7 +16,7 @@ postController.get("/posts", async (req, res) => {
     }
 });
 
-postController.get("/posts/:id([0-9]*)", async (req, res) => {
+postController.get("/posts/:id([0-9]+)", async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -73,7 +73,7 @@ postController.post("/posts", async (req, res) => {
     }
 });
 
-postController.put("/posts/:id([0-9]*)", async (req, res) => {
+postController.put("/posts/:id([0-9]+)", async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -98,7 +98,7 @@ postController.put("/posts/:id([0-9]*)", async (req, res) => {
     }
 });
 
-postController.delete("/posts/:id([0-9]*)", async (req, res) => {
+postController.delete("/posts/:id([0-9]+)", async (req, res) => {
     const { id } = req.params;
 
     try {

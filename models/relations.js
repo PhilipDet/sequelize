@@ -1,12 +1,7 @@
-import { PostModel } from "./post.js";
-import { ImageModel } from "./image.js";
+import { RoleModel } from "./role.js";
+import { UserModel } from "./user.js";
 
 export const setRelations = () => {
-    PostModel.hasMany(ImageModel, {
-        foreignKey: "post_id",
-        onDelete: "CASCADE",
-    });
-    ImageModel.belongsTo(PostModel, {
-        foreignKey: "post_id",
-    });
+    UserModel.belongsTo(RoleModel);
+    RoleModel.hasMany(UserModel);
 };

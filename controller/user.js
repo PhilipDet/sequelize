@@ -1,11 +1,23 @@
 import express from "express";
 import { UserModel } from "../models/user.js";
+import { RoleModel } from "../models/role.js";
 
 export const userController = express.Router();
 
 userController.get("/users", async (req, res) => {
     try {
-        const users = await UserModel.findAll();
+        const users = await UserModel.findAll({
+            attributes: ["id", "username", "email"],
+            include: {
+                model: RoleModel,
+                attributes: ["id", "name"],
+            },
+            // order: [["id", "ASC"]],
+            // where: {
+            //     id: 1,
+            // },
+            // limit: 1,
+        });
         res.json(users);
     } catch (error) {
         console.log(error);
@@ -13,7 +25,7 @@ userController.get("/users", async (req, res) => {
     }
 });
 
-userController.get("/users/:id([0-9]*)", async (req, res) => {
+userController.get("/users/:id([0-9]+)", async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -38,6 +50,7 @@ userController.get("/users/:id([0-9]*)", async (req, res) => {
 
 userController.post("/users", async (req, res) => {
     const { username, email, password } = req.body;
+    console.log(username, email, password);
 
     if (!username || !email || !password) {
         return res.status(400).json({ message: "Mangler påkrævede felter." });
@@ -55,7 +68,7 @@ userController.post("/users", async (req, res) => {
     }
 });
 
-userController.put("/users/:id([0-9]*)", async (req, res) => {
+userController.put("/users/:id([0-9]+)", async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -80,7 +93,7 @@ userController.put("/users/:id([0-9]*)", async (req, res) => {
     }
 });
 
-userController.delete("/users/:id([0-9]*)", async (req, res) => {
+userController.delete("/users/:id([0-9]+)", async (req, res) => {
     const { id } = req.params;
 
     try {

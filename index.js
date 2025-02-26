@@ -14,14 +14,23 @@ import { ImageModel } from "./models/image.js";
 // ------------------------------------------------
 
 // RELATIONS --------------------------------------
-// import { setRelations } from "./models/relations.js";
+import { setRelations } from "./models/relations.js";
+setRelations();
 // ------------------------------------------------
 
 // CONTROLLER -------------------------------------
 import { dbController } from "./controller/db.js";
 import { userController } from "./controller/user.js";
 import { postController } from "./controller/post.js";
-app.use(dbController, userController, postController);
+import { roleController } from "./controller/role.js";
+import { authController } from "./controller/auth.js";
+app.use(
+    dbController,
+    userController,
+    postController,
+    roleController,
+    authController
+);
 // ------------------------------------------------
 
 app.get("/", async (req, res) => {
