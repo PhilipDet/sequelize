@@ -1,0 +1,3 @@
+username,email,password,role_id,bio
+Random_User,random@gmail.com,$2b$10$lW8seUAm3IqIQwmZmZRfNePBBINw0Gd6TWZ18wo9tV2LL/7w7j4/m,1,Just a random guy
+Admin,admin@gmail.com,$2b$10$TiFV0ufA6geaCcmqm9q9FOSIR3BSRvhY9w.gczRkkGe4wui.ZuTZa,2,Just an admin

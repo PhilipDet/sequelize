@@ -10,7 +10,7 @@ userController.get("/users", async (req, res) => {
             attributes: ["id", "username", "email"],
             include: {
                 model: RoleModel,
-                attributes: ["id", "name"],
+                attributes: ["name"],
             },
             // order: [["id", "ASC"]],
             // where: {
